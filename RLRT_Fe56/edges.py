@@ -9,16 +9,22 @@ QE_shift = 0.0
 def shift(df, QE_shift):
     nu_to_RTQE = dict(zip(df["nu"].round(5), df["RTQE"]))
     nu_to_RLQE = dict(zip(df["nu"].round(5), df["RLQE"]))
+    nu_to_RTNS = dict(zip(df["nu"].round(5), df["RTNS"]))
+    nu_to_RLNS = dict(zip(df["nu"].round(5), df["RLNS"]))
     updated_rows = []  
     for _, row in df.iterrows():
         updated_nu = (row["nu"] - QE_shift).round(5)
         if updated_nu in nu_to_RTQE:
             RTQE_prime = nu_to_RTQE[updated_nu]
             RLQE_prime = nu_to_RLQE[updated_nu]
+            RTNS_prime = nu_to_RTNS[updated_nu]
+            RLNS_prime = nu_to_RLNS[updated_nu]
             row["RTTOT"] = row["RTTOT"] - row["RTQE"] + RTQE_prime 
             row["RTQE"] = RTQE_prime
+            row["RTNS"] = RTNS_prime
             row["RLTOT"] = row["RLTOT"] - row["RLQE"] + RLQE_prime
             row["RLQE"] = RLQE_prime
+            row["RLNS"] = RLNS_prime
             updated_rows.append(row)
     updated_df = pd.DataFrame(updated_rows)
     return updated_df

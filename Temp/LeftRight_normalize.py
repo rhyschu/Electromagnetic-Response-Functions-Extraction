@@ -4,10 +4,11 @@ from scipy.interpolate import interp1d
 data_left = 'Data/Fe56_Fit_Left6MeV.csv'
 data_right = 'Data/Fe56_Fit_Right13MeV.csv'
 data_result = 'Data/Fe56_Fit_LeftRightCombined.csv'
+W2_split = 0.95**2
 df_left = pd.read_csv(data_left)
 df_right = pd.read_csv(data_right)
-df_left = df_left[df_left['W2'] < 0.95]
-df_right = df_right[df_right['W2'] >= 0.95]
+df_left = df_left[df_left['W2'] < W2_split]
+df_right = df_right[df_right['W2'] >= W2_split]
 pairs1 = set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df_left.iterrows())
 pairs2 = set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df_right.iterrows())
 value_pairs = sorted(pairs1.union(pairs2), key=lambda x: (x[2], x[1], x[0]))
@@ -23,8 +24,8 @@ for value_pair in value_pairs:
     else:
         interp_left = interp1d(filtered_data_left['W2'], filtered_data_left['qe_shifted'], kind='linear', fill_value='extrapolate')
         interp_right = interp1d(filtered_data_right['W2'], filtered_data_right['qe_shifted'], kind='linear', fill_value='extrapolate')
-        qe_left_095 = float(interp_left(0.95))
-        qe_right_095 = float(interp_right(0.95)) 
+        qe_left_095 = float(interp_left(W2_split))
+        qe_right_095 = float(interp_right(W2_split)) 
         if qe_left_095 != 0:
             scale_factor = qe_right_095 / qe_left_095
         else:

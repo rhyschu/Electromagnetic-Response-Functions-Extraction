@@ -1,13 +1,13 @@
 import pandas as pd
 import subprocess
 
-data = 'Data/Fe56.csv'
-data_fit = 'Data/Fe56_Fit_Right13MeV.csv'
+data = 'Data/Fe56_Fake.csv'
+data_fit = 'Data/df_Fe56_2.csv'
 elem= 'Fe56'
 ex_cut_lower = 0
 ex_cut_upper = 1000
 multiplier = 26 / 6
-QE_shift = 0.013
+QE_shift = 0.0
 
 if __name__ == "__main__":
     df = pd.read_csv(data)
