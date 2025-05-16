@@ -14,4 +14,4 @@ for E0, ThetaDeg, dataSet in value_pairs:
     for nu in nu_vals:
         new_rows.append([26, 56, E0, ThetaDeg, round(nu, 5), 1, 0, dataSet])
 new_df = pd.DataFrame(new_rows, columns=columns)
-new_df.to_csv('Data/Fe56_Fake.csv', index=False)
+new_df.to_csv('Data/Fe56_Fake_raw.csv', index=False)

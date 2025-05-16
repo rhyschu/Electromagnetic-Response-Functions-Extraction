@@ -34,8 +34,8 @@ c
       V0  = (3./2.)*ALPHA*HBARC*(Z-1.)/R0  ! in GeV
 
       ! Average potential
-      V  = C_ASTE*V0      ! from Eur. Phys. J. A26 (2005) 167
-
+c      V  = C_ASTE*V0      ! from Eur. Phys. J. A26 (2005) 167
+      V = 0.0089
 c      write(6,*) V
       
       RETURN

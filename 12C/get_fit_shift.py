@@ -1,8 +1,8 @@
 import pandas as pd
 import subprocess
 
-data = 'Data/Fe56_Fake.csv'
-data_fit = 'Data/df_Fe56_2.csv'
+data = 'Data/Fe56_Fake_raw.csv'
+data_fit = 'Data/Fe56_Fake.csv'
 elem= 'Fe56'
 ex_cut_lower = 0
 ex_cut_upper = 1000

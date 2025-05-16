@@ -14,7 +14,7 @@ ex_cut_upper = 1000
 multiplier = 26 / 6
 A = 56
 mass_nucleus = A * 0.931494
-W2_split = 0.95
+W2_split = 0.95**2
 df = pd.read_csv(data)
 df_fit = pd.read_csv(data_fit)
 df_SuSAV2 = pd.read_csv(data_SuSAV2)
@@ -51,8 +51,8 @@ with PdfPages(pdf_file) as pdf:
                 y_Sheren = filtered_data_Sheren['cross']
                 
                 ax.errorbar(x, y, yerr=yerr, fmt='.', label=f'normCross', color='blue', zorder=-1)
-                # ax.scatter(x_fit, y_fit, label='Christy-Bodek Fit Total', color='red', marker='.')
-                # ax.plot(x_fit, y_fit, color='red', alpha=0.5)
+                ax.scatter(x_fit, y_fit, label='Christy-Bodek Fit Total', color='red', marker='.')
+                ax.plot(x_fit, y_fit, color='red', alpha=0.5)
                 ax.scatter(x_fit, y_fit_QE, label='Christy-Bodek Fit QE', color='red', marker='.')
                 ax.plot(x_fit, y_fit_QE, color='red', alpha=0.5, linestyle='--')
                 ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lightgreen', marker='.')
@@ -68,7 +68,8 @@ with PdfPages(pdf_file) as pdf:
                 formatter.set_scientific(True)
                 formatter.set_powerlimits((0,0))
                 ax.yaxis.set_major_formatter(formatter)
-                ax.legend() 
+                ax.legend()
+                ax.legend(fontsize=6)
             plt.tight_layout()
             pdf.savefig(fig)
             plt.close(fig)     
