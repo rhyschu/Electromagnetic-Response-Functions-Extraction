@@ -16,7 +16,7 @@ for E0, ThetaDeg, dataSet in value_pairs:
     sub = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg) & (df['dataSet'] == dataSet)]
     nu_min = sub['nu'].min()
     nu_max = sub['nu'].max()
-    nu_vals = np.arange(nu_min, nu_max + 1e-6, 0.002)
+    nu_vals = np.arange(nu_min, nu_max + 1e-6, 0.005)
     for nu in nu_vals:
         new_rows.append([26, 56, E0, ThetaDeg, round(nu, 5), 1, 0, dataSet])
 df = pd.DataFrame(new_rows, columns=columns)
