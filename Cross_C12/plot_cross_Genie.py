@@ -3,19 +3,17 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.ticker import ScalarFormatter
 
-data = 'Data/df_C12.csv'
-data_fit = 'Data/C12_Fit.csv'
+data_fit = 'Data/C12_Fit_respect_to_Genie.csv'
 data_GENIE = 'Data/C12_Genie.csv'
-pdf_file = 'C12_Cross.pdf'
+pdf_file = 'C12_Cross_Genie.pdf'
 elem= 'C12'
 ex_cut_lower = 0
 ex_cut_upper = 1000
 A = 12
 mass_nucleus = A * 0.931494
-df = pd.read_csv(data)
 df_fit = pd.read_csv(data_fit)
 df_GENIE = pd.read_csv(data_GENIE)
-value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[1], x[0]))
+value_pairs = sorted(set((row["E0"], row["ThetaDeg"]) for _, row in df_GENIE.iterrows()), key=lambda x: (x[1], x[0]))
 
 with PdfPages(pdf_file) as pdf:
     for i in range(len(value_pairs) // 12 + 1):
@@ -24,24 +22,17 @@ with PdfPages(pdf_file) as pdf:
             if i * 12 + j >= len(value_pairs):
                 ax.axis('off')
                 continue
-            E0, ThetaDeg, dataSet = value_pairs[i * 12 + j]
-            filtered_data = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg) & (df['dataSet'] == dataSet)]
-            Z = filtered_data['Z'].iloc[0]
-            A = filtered_data['A'].iloc[0]
-            x = filtered_data['nu']
-            y = filtered_data['normCross']
-            yerr = filtered_data['normCrossError']
-            normaliztion = filtered_data['normalization'].iloc[0]
-            filtered_data_fit = df_fit[(df_fit['E0'] == E0) & (df_fit['ThetaDeg'] == ThetaDeg) & (df_fit['dataSet'] == dataSet)]
+            E0, ThetaDeg = value_pairs[i * 12 + j]
+            filtered_data_fit = df_fit[(df_fit['E0'] == E0) & (df_fit['ThetaDeg'] == ThetaDeg)]
+            filtered_data_fit = filtered_data_fit.sort_values(by='nu')
             x_fit = filtered_data_fit['nu']
             y_fit = filtered_data_fit['sigtot']
             y_fit_QE = filtered_data_fit['sigqe']
-            filtered_data_GENIE = df_GENIE[(df_GENIE['E0'] == E0) & (df_GENIE['ThetaDeg'] == ThetaDeg) & (df_GENIE['dataSet'] == dataSet)]
+            filtered_data_GENIE = df_GENIE[(df_GENIE['E0'] == E0) & (df_GENIE['ThetaDeg'] == ThetaDeg)]
             filtered_data_GENIE = filtered_data_GENIE.sort_values(by='nu')
             x_GENIE = filtered_data_GENIE['nu']
             y_GENIE = filtered_data_GENIE['cross']
             
-            ax.errorbar(x, y, yerr=yerr, fmt='.', label=f'normCross', color='blue', zorder=-1)
             ax.scatter(x_fit, y_fit, label='Christy-Bodek Fit Total', color='red', marker='.')
             ax.plot(x_fit, y_fit, color='red', alpha=0.5)
             ax.scatter(x_fit, y_fit_QE, label='Christy-Bodek Fit QE', color='red', marker='.')
@@ -51,7 +42,7 @@ with PdfPages(pdf_file) as pdf:
             ax.set_xlabel('$\\nu \ (GeV)$')
             ax.set_ylabel('$\\frac{d^2 \sigma}{d\Omega d\\nu} (nb/sr/GeV)$')
             ax.set_ylim(0, None)
-            ax.set_title(f'{dataSet} {E0}$GeV$ {ThetaDeg}° (X {normaliztion})')
+            ax.set_title(f'{E0}$GeV$ {ThetaDeg}°')
             formatter = ScalarFormatter(useMathText=True)
             formatter.set_scientific(True)
             formatter.set_powerlimits((0,0))
