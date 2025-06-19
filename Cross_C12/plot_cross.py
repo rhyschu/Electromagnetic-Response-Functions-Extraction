@@ -36,7 +36,7 @@ with PdfPages(pdf_file) as pdf:
             x_fit = filtered_data_fit['nu']
             y_fit = filtered_data_fit['sigtot']
             y_fit_QE = filtered_data_fit['sigqe']
-            filtered_data_GENIE = df_GENIE[(df_GENIE['E0'] == E0) & (df_GENIE['ThetaDeg'] == ThetaDeg) & (df_GENIE['dataSet'] == dataSet)]
+            filtered_data_GENIE = df_GENIE[(df_GENIE['E0'] == E0) & (df_GENIE['ThetaDeg'] == ThetaDeg)]
             filtered_data_GENIE = filtered_data_GENIE.sort_values(by='nu')
             x_GENIE = filtered_data_GENIE['nu']
             y_GENIE = filtered_data_GENIE['cross']

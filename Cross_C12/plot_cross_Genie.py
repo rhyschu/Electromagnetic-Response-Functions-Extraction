@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.ticker import ScalarFormatter
 
+data = 'Data/df_C12.csv'
 data_fit = 'Data/C12_Fit_respect_to_Genie.csv'
 data_GENIE = 'Data/C12_Genie.csv'
 pdf_file = 'C12_Cross_Genie.pdf'
@@ -11,6 +12,7 @@ ex_cut_lower = 0
 ex_cut_upper = 1000
 A = 12
 mass_nucleus = A * 0.931494
+df = pd.read_csv(data)
 df_fit = pd.read_csv(data_fit)
 df_GENIE = pd.read_csv(data_GENIE)
 value_pairs = sorted(set((row["E0"], row["ThetaDeg"]) for _, row in df_GENIE.iterrows()), key=lambda x: (x[1], x[0]))
@@ -23,6 +25,10 @@ with PdfPages(pdf_file) as pdf:
                 ax.axis('off')
                 continue
             E0, ThetaDeg = value_pairs[i * 12 + j]
+            filtered_data = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg)]
+            x = filtered_data['nu']
+            y = filtered_data['normCross']
+            yerr = filtered_data['normCrossError']
             filtered_data_fit = df_fit[(df_fit['E0'] == E0) & (df_fit['ThetaDeg'] == ThetaDeg)]
             filtered_data_fit = filtered_data_fit.sort_values(by='nu')
             x_fit = filtered_data_fit['nu']
@@ -33,6 +39,7 @@ with PdfPages(pdf_file) as pdf:
             x_GENIE = filtered_data_GENIE['nu']
             y_GENIE = filtered_data_GENIE['cross']
             
+            ax.errorbar(x, y, yerr=yerr, fmt='.', label=f'normCross', color='blue', zorder=-1)
             ax.scatter(x_fit, y_fit, label='Christy-Bodek Fit Total', color='red', marker='.')
             ax.plot(x_fit, y_fit, color='red', alpha=0.5)
             ax.scatter(x_fit, y_fit_QE, label='Christy-Bodek Fit QE', color='red', marker='.')
