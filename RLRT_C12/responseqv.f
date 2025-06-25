@@ -1,4 +1,4 @@
-      PROGRAM RESPONSEQV
+      PROGRAM RESPONSEQ2
 
       IMPLICIT NONE
 
@@ -51,7 +51,7 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
       read(5,*) qv
       
       
-      dnu = 0.001  !!! in GeV
+      dnu = 0.0001  !!! in GeV
       nu = 0.0
       q2 = qv*qv - nu*nu
       nuel = q2/2./(0.931494*A)
@@ -59,10 +59,14 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
 
       open(unit=6, file='responseqv_output.txt', status='replace')
       
-      do i=1,3600
+      do i=1,36000
         nu = nu + dnu
         !   qv = sqrt(q2+nu*nu)
         q2 = qv*qv - nu*nu
+        if(q2.LE.0.0) then
+            return
+        endif
+        
 
         w2 = mp*mp+2.0*mp*nu-q2
         xb = q2/2.0/mp/nu
@@ -109,10 +113,10 @@ c        write(6,*) RLTOT,RLIE+RLQE
         RTNS = 2.0/mp*F1NS/1000.0 
         RLNS =  qv*qv/q2/2.0/mp/xb*FLNS/1000.0
 
-        if(ex.LE.0.012) then  !!! Only needed for plotting purposes
-           RTNS = RTNS/6.0
-           RLNS = RLNS/6.0
-        endif
+      !  if(ex.LE.0.012) then  !!! Only needed for plotting purposes
+      !     RTNS = RTNS/6.0
+      !     RLNS = RLNS/6.0
+      !  endif
         
         RLTOT = RLTOT+RLNS
         RTTOT = RTTOT+RTNS

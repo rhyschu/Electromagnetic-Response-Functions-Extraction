@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.ticker import ScalarFormatter
 
-data = 'Data/df_C12.csv'
+data = 'Data/df_C12_Refined.csv'
 data_fit = 'Data/C12_Fit.csv'
 data_GENIE = 'Data/C12_Genie.csv'
 data_SuSAV2 = 'Data/C12_SuSAV2.csv'
@@ -32,6 +32,7 @@ with PdfPages(pdf_file) as pdf:
                 continue
             E0, ThetaDeg = value_pairs[i * 12 + j]
             filtered_data = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg)]
+            filtered_data = filtered_data.sort_values(by='nu')
             x = filtered_data['nu']
             y = filtered_data['normCross']
             yerr = filtered_data['normCrossError']

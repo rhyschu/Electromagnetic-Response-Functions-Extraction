@@ -34,6 +34,8 @@ if __name__ == "__main__":
             with open("output1.txt", "r") as output_file:
                 line = output_file.readline().strip()
                 values = line.split()
+            if not values:
+                continue
             for i in range(6, 12):
                 values[i] = float(values[i]) * 1000 * 12 * multiplier
             ep = values[0]
@@ -86,6 +88,8 @@ if __name__ == "__main__":
             with open("output2.txt", "r") as output_file:
                 line = output_file.readline().strip()
                 values_shifted = line.split()
+            if not values:
+                continue
             for i in range(6, 12):
                 values[i] = float(values[i]) * 1000 * 12 * multiplier
                 values_shifted[i] = float(values_shifted[i]) * 1000 * 12 * multiplier

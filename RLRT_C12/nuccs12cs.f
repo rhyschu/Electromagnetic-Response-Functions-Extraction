@@ -33,9 +33,9 @@ c      smwid = 0.00041  !!! Use for LEDEX 0.362 GeV
 c       smwid = 0.000625  !!! Use for Crannell 250 MeV  (0.25%)
 c      smwid = 0.0015    !!!  Use for Crannell 600 MeV (0.25%)
 
-       smwid = 0.001   !!!  New value for Jan05
+c       smwid = 0.001   !!!  New value for Jan05
 
-c      smwid = 0.00025   !!! Yamaguchi hi res
+      smwid = 0.00025   !!! Yamaguchi hi res
       
       width = sqrt(smwid*smwid+wid(state)*wid(state))
       

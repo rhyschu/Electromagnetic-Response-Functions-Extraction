@@ -35,7 +35,7 @@ with PdfPages(pdf_file) as pdf:
             filtered_data = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg) & (df['dataSet'] == dataSet)]
             Z = filtered_data['Z'].iloc[0]
             A = filtered_data['A'].iloc[0]
-            x = filtered_data['W2_O']
+            x = filtered_data['W2original']
             y = filtered_data['normCross']
             yerr = filtered_data['normCrossError']
             normaliztion = filtered_data['normalization'].iloc[0]
@@ -44,10 +44,10 @@ with PdfPages(pdf_file) as pdf:
             y_fit = filtered_data_fit['sigtot_shifted']
             y_fit_QE = filtered_data_fit['qe_shifted']
             filtered_data_SuSAV2 = df_SuSAV2[(df_SuSAV2['E0'] == E0) & (df_SuSAV2['ThetaDeg'] == ThetaDeg) & (df_SuSAV2['dataSet'] == dataSet)]
-            x_SuSAV2 = filtered_data_SuSAV2['W2_O']
+            x_SuSAV2 = filtered_data_SuSAV2['W2original']
             y_SuSAV2 = filtered_data_SuSAV2['cross']
             filtered_data_Sheren = df_Sheren[(df_Sheren['E0'] == E0) & (df_Sheren['ThetaDeg'] == ThetaDeg) & (df_Sheren['dataSet'] == dataSet)]
-            x_Sheren = filtered_data_Sheren['W2_O']
+            x_Sheren = filtered_data_Sheren['W2original']
             y_Sheren = filtered_data_Sheren['cross']
             
             ax.errorbar(x, y, yerr=yerr, fmt='.', label=f'normCross', color='blue', zorder=-1)

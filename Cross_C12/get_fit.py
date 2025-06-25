@@ -3,7 +3,7 @@ import subprocess
 
 data = 'Data/C12.csv'
 data_fit = 'Data/C12_Fit.csv'
-elem= 'C12'
+elem = 'C12'
 ex_cut_lower = 0
 ex_cut_upper = 1000
 QE_shift = 0.0
@@ -33,6 +33,8 @@ if __name__ == "__main__":
             with open("output1.txt", "r") as output_file:
                 line = output_file.readline().strip()
                 values = line.split()
+            if not values:
+                continue
             for i in range(6, 12):
                 values[i] = float(values[i]) * 1000 * 12
             ep = values[0]
@@ -85,6 +87,8 @@ if __name__ == "__main__":
             with open("output2.txt", "r") as output_file:
                 line = output_file.readline().strip()
                 values_shifted = line.split()
+            if not values:
+                continue
             for i in range(6, 12):
                 values[i] = float(values[i]) * 1000 * 12
                 values_shifted[i] = float(values_shifted[i]) * 1000 * 12

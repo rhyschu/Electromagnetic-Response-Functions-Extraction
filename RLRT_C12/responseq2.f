@@ -49,16 +49,20 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
       Z = 6.0
 
       read(5,*) q2
+  
       
-      
-      dnu = 0.00025  !!! in GeV
+      ! dnu = 0.00025  !!! in GeV
+      dnu = 0.001  !!! in GeV
+
       nu = 0.0
       nuel = q2/2./(0.931494*A)
       nu = nuel
 
       open(unit=6, file='responseq2_output.txt', status='replace')
       
-      do i=1,10000
+      ! do i=1,14000
+      do i=1,3500
+
         nu = nu + dnu
 
         qv = sqrt(q2+nu*nu)
@@ -106,10 +110,10 @@ c        write(6,*) RLTOT,RLIE+RLQE
         RTNS = 2.0/mp*F1NS/1000.0 
         RLNS =  qv*qv/q2/2.0/mp/xb*FLNS/1000.0
 
-        if(ex.LE.0.012) then  !!! Only needed for plotting purposes
-           RTNS = RTNS/6.0
-           RLNS = RLNS/6.0
-        endif
+      !   if(ex.LE.0.012) then  !!! Only needed for plotting purposes
+      !      RTNS = RTNS/6.0
+      !      RLNS = RLNS/6.0
+      !   endif
         
         RLTOT = RLTOT+RLNS
         RTTOT = RTTOT+RTNS
@@ -121,7 +125,8 @@ c        write(6,*) RLTOT,RLIE+RLQE
         
       enddo
 
- 2000  format(4f9.5,10E11.3)
+!  2000  format(4f9.5,10E11.3)
+ 2000  format(4f9.5,10E15.7)
       
 
       return
