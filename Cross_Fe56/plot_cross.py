@@ -8,7 +8,7 @@ data_fit = 'Data/Fe56_Fit_LeftRightCombined.csv'
 data_SuSAV2 = 'Data/df_Fe56_SuSAV2.csv'
 data_Sheren = 'Data/df_Fe56_Sheren.csv'
 pdf_file = 'Fe56_Cross.pdf'
-elem= 'Fe56'
+elem = 'Fe56'
 ex_cut_lower = 0
 ex_cut_upper = 1000
 multiplier = 26 / 6
@@ -26,7 +26,7 @@ value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row
 
 with PdfPages(pdf_file) as pdf:
     for i in range(len(value_pairs) // 12 + 1):
-        fig, axs = plt.subplots(ncols=3, nrows=4, figsize=(12, 12), dpi=200) 
+        fig, axs = plt.subplots(ncols = 3, nrows = 4, figsize = (12, 12), dpi = 300) 
         for j, ax in enumerate(axs.flat):
             if i * 12 + j >= len(value_pairs):
                 ax.axis('off')
@@ -50,16 +50,16 @@ with PdfPages(pdf_file) as pdf:
             x_Sheren = filtered_data_Sheren['W2original']
             y_Sheren = filtered_data_Sheren['cross']
             
-            ax.errorbar(x, y, yerr=yerr, fmt='.', label=f'normCross', color='blue', zorder=-1)
-            ax.scatter(x_fit, y_fit, label='Christy-Bodek Fit Total', color='red', marker='.')
-            ax.plot(x_fit, y_fit, color='red', alpha=0.5)
-            ax.scatter(x_fit, y_fit_QE, label='Christy-Bodek Fit QE', color='red', marker='.')
-            ax.plot(x_fit, y_fit_QE, color='red', alpha=0.5, linestyle='--')
-            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lightgreen', marker='.')
-            ax.plot(x_SuSAV2, y_SuSAV2, color='lightgreen', alpha=0.5)
-            ax.scatter(x_Sheren, y_Sheren, label='Sheren', color='darkgreen', marker='.')
-            ax.plot(x_Sheren, y_Sheren, color='darkgreen', alpha=0.5)
-            ax.axvline(x=W2_split, color = 'darkorange', linestyle='dashdot',lw=1)
+            ax.errorbar(x, y, yerr = yerr, fmt = '.', label = f'normCross', color = 'red', zorder = 2)
+            ax.scatter(x_fit, y_fit, label = 'Christy-Bodek Fit Total', color = 'black', marker = '.', zorder = -2)
+            ax.plot(x_fit, y_fit, color = 'black', linestyle = 'solid', alpha = 0.5, zorder = -2)
+            ax.scatter(x_fit, y_fit_QE, label = 'Christy-Bodek Fit QE', color = 'black', marker = '.', zorder = -2)
+            ax.plot(x_fit, y_fit_QE, color = 'black', linestyle = 'dashed', alpha = 0.5, zorder = -2)
+            ax.scatter(x_SuSAV2, y_SuSAV2, label = 'SuSAV2', color = 'violet', marker = '.')
+            ax.plot(x_SuSAV2, y_SuSAV2, color = 'violet', alpha = 0.5)
+            ax.scatter(x_Sheren, y_Sheren, label = 'Sheren', color = 'deepskyblue', marker = '.')
+            ax.plot(x_Sheren, y_Sheren, color = 'deepskyblue', alpha = 0.5)
+            ax.axvline(x = W2_split, color = 'darkorange', linestyle = 'dashdot', lw = 1)
             ax.set_xlabel('$W^2 \ (GeV)$')
             ax.set_ylabel('$\\frac{d^2 \sigma}{d\Omega d\\nu} (nb/sr/GeV)$')
             ax.set_ylim(0, None)
@@ -68,8 +68,8 @@ with PdfPages(pdf_file) as pdf:
             formatter.set_scientific(True)
             formatter.set_powerlimits((0,0))
             ax.yaxis.set_major_formatter(formatter)
-            ax.legend()
-            ax.legend(fontsize=6)
+            if j == 0:
+                ax.legend()
         plt.tight_layout()
         pdf.savefig(fig)
         plt.close(fig)     
