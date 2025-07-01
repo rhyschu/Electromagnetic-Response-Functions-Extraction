@@ -22,7 +22,7 @@ df_SuSAV2 = df_SuSAV2[df_SuSAV2['cross'] != 0]
 df_SuSAV2.replace('#DIV/0!', pd.NA, inplace=True)
 df_SuSAV2.dropna(inplace=True)
 df_Sheren = pd.read_csv(data_Sheren)
-value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[1], x[0]))
+value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[1], x[2], x[0]))
 
 with PdfPages(pdf_file) as pdf:
     for i in range(len(value_pairs) // 12 + 1):
@@ -38,7 +38,7 @@ with PdfPages(pdf_file) as pdf:
             x = filtered_data['W2original']
             y = filtered_data['normCross']
             yerr = filtered_data['normCrossError']
-            normaliztion = filtered_data['normalization'].iloc[0]
+            normalization = filtered_data['normalization'].iloc[0]
             filtered_data_fit = df_fit[(df_fit['E0'] == E0) & (df_fit['ThetaDeg'] == ThetaDeg) & (df_fit['dataSet'] == dataSet)]
             x_fit = filtered_data_fit['W2']
             y_fit = filtered_data_fit['sigtot_shifted']
@@ -63,7 +63,7 @@ with PdfPages(pdf_file) as pdf:
             ax.set_xlabel('$W^2 \ (GeV)$')
             ax.set_ylabel('$\\frac{d^2 \sigma}{d\Omega d\\nu} (nb/sr/GeV)$')
             ax.set_ylim(0, None)
-            ax.set_title(f'{dataSet} {E0}$GeV$ {ThetaDeg}° (X {normaliztion})')
+            ax.set_title(f'{dataSet} {E0}$GeV$ {ThetaDeg}° (X {normalization})')
             formatter = ScalarFormatter(useMathText=True)
             formatter.set_scientific(True)
             formatter.set_powerlimits((0,0))

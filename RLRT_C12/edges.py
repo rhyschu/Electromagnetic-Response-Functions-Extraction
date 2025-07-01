@@ -34,7 +34,7 @@ def shift(df, QE_shift):
     return updated_df
 
 for q in qv_values:
-    process = subprocess.run(["./responseqv"], input=f"{q}\n", text=True, capture_output=True)
+    process = subprocess.run(["response/responseqv.exe"], input=f"{q}\n", text=True, capture_output=True)
     with open("responseqv_output.txt", "r") as f:
         lines = f.readlines()
     data = [line.strip().split() for line in lines if line.strip()]
@@ -49,7 +49,7 @@ for q in qv_values:
         df_final.to_csv(csv_filename, index=False)
 
 for q in q2_values:
-    process = subprocess.run(["./responseq2"], input=f"{q}\n", text=True, capture_output=True)
+    process = subprocess.run(["response/responseq2.exe"], input=f"{q}\n", text=True, capture_output=True)
     with open("responseq2_output.txt", "r") as f:
         lines = f.readlines()
     data = [line.strip().split() for line in lines if line.strip()]
