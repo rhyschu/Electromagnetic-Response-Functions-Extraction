@@ -198,7 +198,6 @@ c         nuccstot = nuccstot*abs(w2v-mp2)/8.0d0/pi2/alpha/0.3894e3
 
          res = cs(j)-sigm
          chi2 = res*res/cserr(j)/cserr(j)
-c         sum the chi2 for each set
 
          rat = cs(j)/sigm
          erat = cserr(j)/cs(j)*rat
@@ -214,7 +213,6 @@ c         if(set(j).EQ.6) wr = .false.
          if(wr.AND.abs(eb-e(j)).LT.0.001.AND.abs(th(j)-theta).LT.0.03)
      &      write(6,3000) e(j),ep(j),th(j),w2(j),q2(j),
      &            eps,cs(j),cserr(j),sigm,rat,erat,set(j)
-c         write another if statement to print out chi2 for individual set
            
        enddo
 

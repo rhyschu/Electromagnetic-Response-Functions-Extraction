@@ -29,7 +29,7 @@ if __name__ == "__main__":
             with open("input2.txt", "w") as input2:
                 input2.write(f"{nu}\n")
             with open("output1.txt", "w") as output_file:
-                subprocess.run(["./qemodplot"], stdout=output_file)
+                subprocess.run(["qemodplot/qemodplot.exe"], stdout=output_file)
             with open("output1.txt", "r") as output_file:
                 line = output_file.readline().strip()
                 values = line.split()
@@ -76,11 +76,11 @@ if __name__ == "__main__":
             with open("input2.txt", "w") as input2:
                 input2.write(f"{nu}\n")
             with open("output1.txt", "w") as output_file:
-                subprocess.run(["./qemodplot"], stdout=output_file)
+                subprocess.run(["qemodplot/qemodplot.exe"], stdout=output_file)
             with open("input2.txt", "w") as input2:
                 input2.write(f"{nu - QE_shift}\n")
             with open("output2.txt", "w") as output_file:
-                subprocess.run(["./qemodplot"], stdout=output_file)
+                subprocess.run(["qemodplot/qemodplot.exe"], stdout=output_file)
             with open("output1.txt", "r") as output_file:
                 line = output_file.readline().strip()
                 values = line.split()

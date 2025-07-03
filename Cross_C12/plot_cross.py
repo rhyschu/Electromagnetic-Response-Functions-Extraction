@@ -37,7 +37,6 @@ df['error'] = np.sqrt(df['error']**2 + ((df['system_err'] * df['cross'])**2))
 df['normCrossError'] = df['normCross'] * np.sqrt((df['error'] / df['cross'])**2 + (df['normError'] / df['normalization'])**2)
 df_fit = pd.read_csv(data_fit)
 df_GENIE = pd.read_csv(data_GENIE)
-df_GENIE = df_GENIE[df_GENIE['cross'] > 0]
 df_SuSAV2 = pd.read_csv(data_SuSAV2)
 value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[0], x[1]))
 
@@ -68,11 +67,10 @@ with PdfPages(pdf_file) as pdf:
             filtered_data_SuSAV2 = filtered_data_SuSAV2.sort_values(by = 'nu')
             x_SuSAV2 = filtered_data_SuSAV2['nu']
             y_SuSAV2 = filtered_data_SuSAV2['cross']
-            
-            ax.errorbar(x, y, yerr=yerr, fmt='.', label='normCross', color='blue', markersize=5, capsize=0, alpha=1.0, zorder=1)
+            ax.errorbar(x, y, yerr=yerr, fmt='.', label='normCross', color='blue', markersize=6, capsize=0, alpha=1.0, zorder=1)
             ax.plot(x_fit, y_fit, label='Christy-Bodek Fit', color='red', linestyle='solid', linewidth=1, alpha=0.5, zorder=2)
-            ax.scatter(x_GENIE, y_GENIE, label='GENIE', color='orange', marker='.', s=15, alpha=0.5, zorder=3)
-            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='green', marker='.', s=15, alpha=0.8, zorder=4)
+            ax.scatter(x_GENIE, y_GENIE, label='GENIE', color='gold', marker='D', s=6, edgecolors='black', linewidth=0.5, alpha=1.0, zorder=3)
+            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lawngreen', marker='D', s=6, edgecolors='black', linewidth=0.5, alpha=1.0, zorder=4)
             ax.set_xlabel('$\\nu \ (GeV)$')
             ax.set_ylabel('$\\frac{d^2 \sigma}{d\Omega d\\nu} (nb/sr/GeV)$')
             ax.set_ylim(0, None)
