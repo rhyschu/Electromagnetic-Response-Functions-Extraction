@@ -42,7 +42,7 @@ value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row
 
 with PdfPages(pdf_file) as pdf:
     for i in range(len(value_pairs) // 12 + 1):
-        fig, axs = plt.subplots(ncols = 3, nrows = 4, figsize = (18, 18), dpi = 300) 
+        fig, axs = plt.subplots(ncols = 3, nrows = 4, figsize = (18, 18), dpi = 600) 
         for j, ax in enumerate(axs.flat):
             if i * 12 + j >= len(value_pairs):
                 ax.axis('off')
@@ -67,10 +67,10 @@ with PdfPages(pdf_file) as pdf:
             filtered_data_SuSAV2 = filtered_data_SuSAV2.sort_values(by = 'nu')
             x_SuSAV2 = filtered_data_SuSAV2['nu']
             y_SuSAV2 = filtered_data_SuSAV2['cross']
-            ax.errorbar(x, y, yerr=yerr, fmt='.', label='normCross', color='blue', markersize=6, capsize=0, alpha=1.0, zorder=1)
-            ax.plot(x_fit, y_fit, label='Christy-Bodek Fit', color='red', linestyle='solid', linewidth=1, alpha=0.5, zorder=2)
-            ax.scatter(x_GENIE, y_GENIE, label='GENIE', color='gold', marker='D', s=6, edgecolors='black', linewidth=0.5, alpha=1.0, zorder=3)
-            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lawngreen', marker='D', s=6, edgecolors='black', linewidth=0.5, alpha=1.0, zorder=4)
+            ax.errorbar(x, y, yerr=yerr, fmt='.', label='normCross', color='blue', markersize=8, capsize=0, alpha=1.0, zorder=1)
+            ax.plot(x_fit, y_fit, label='Christy-Bodek Fit', color='red', linestyle='solid', linewidth=2, alpha=0.5, zorder=2)
+            ax.scatter(x_GENIE, y_GENIE, label='GENIE', color='gold', marker='D', s=8, edgecolors='black', linewidth=0.3, alpha=1.0, zorder=3)
+            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lawngreen', marker='D', s=8, edgecolors='black', linewidth=0.3, alpha=1.0, zorder=4)
             ax.set_xlabel('$\\nu \ (GeV)$')
             ax.set_ylabel('$\\frac{d^2 \sigma}{d\Omega d\\nu} (nb/sr/GeV)$')
             ax.set_ylim(0, None)
