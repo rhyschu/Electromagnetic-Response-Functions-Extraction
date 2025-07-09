@@ -37,6 +37,8 @@ df['error'] = np.sqrt(df['error']**2 + ((df['system_err'] * df['cross'])**2))
 df['normCrossError'] = df['normCross'] * np.sqrt((df['error'] / df['cross'])**2 + (df['normError'] / df['normalization'])**2)
 df_fit = pd.read_csv(data_fit)
 df_GENIE = pd.read_csv(data_GENIE)
+df_GENIE["Q2"] = 4 * (df_GENIE["E0"] + 0.0031) * (df_GENIE["E0"] - df_GENIE["nu"] + 0.0031) * (np.sin(df_GENIE["ThetaDeg"] * np.pi / 180 / 2))**2
+df_GENIE = df_GENIE[df_GENIE['Q2'] > 0.02233224]
 df_SuSAV2 = pd.read_csv(data_SuSAV2)
 value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[0], x[1]))
 
