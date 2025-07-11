@@ -27,7 +27,10 @@ elem = 'C12'
 ex_cut_lower = 0
 ex_cut_upper = 1000
 A = 12
+mass_nucleon = 0.938273
 mass_nucleus = A * 0.931494
+nu_axis = True
+Q2_cut = 0.025
 df = pd.read_csv(data)
 df["normalization"] = df["dataSet"].map(dataSet_to_normalization)
 df["normError"] = df["dataSet"].map(dataSet_to_normError)
@@ -37,10 +40,21 @@ df['error'] = np.sqrt(df['error']**2 + ((df['system_err'] * df['cross'])**2))
 df['normCrossError'] = df['normCross'] * np.sqrt((df['error'] / df['cross'])**2 + (df['normError'] / df['normalization'])**2)
 df_fit = pd.read_csv(data_fit)
 df_GENIE = pd.read_csv(data_GENIE)
-df_GENIE["Q2"] = 4 * (df_GENIE["E0"] + 0.0031) * (df_GENIE["E0"] - df_GENIE["nu"] + 0.0031) * (np.sin(df_GENIE["ThetaDeg"] * np.pi / 180 / 2))**2
-df_GENIE = df_GENIE[df_GENIE['Q2'] > 0.02233224]
 df_SuSAV2 = pd.read_csv(data_SuSAV2)
 value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[0], x[1]))
+
+if not nu_axis:
+    def cal_w2(df):
+        df["ThetaRad"] = df["ThetaDeg"] * np.pi / 180
+        df["sin2(T/2)"] = (np.sin(df["ThetaRad"] / 2))**2
+        df["Q2"] = 4 * df["E0"] * (df["E0"] - df["nu"]) * df["sin2(T/2)"]
+        df["W2original"] = mass_nucleon**2 + 2 * mass_nucleon * df["nu"] - df["Q2"]
+    cal_w2(df)
+    cal_w2(df_fit)
+    cal_w2(df_GENIE)
+    cal_w2(df_SuSAV2)
+    if Q2_cut != 0:
+        df_GENIE = df_GENIE[df_GENIE['Q2'] > 0.025]
 
 with PdfPages(pdf_file) as pdf:
     for i in range(len(value_pairs) // 12 + 1):
@@ -52,28 +66,31 @@ with PdfPages(pdf_file) as pdf:
             E0, ThetaDeg, dataSet = value_pairs[i * 12 + j]
             filtered_data = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg) & (df['dataSet'] == dataSet)]
             filtered_data = filtered_data.sort_values(by = 'nu')
-            x = filtered_data['nu']
+            x = filtered_data['nu'] if nu_axis else filtered_data['W2original']
             y = filtered_data['normCross']
             yerr = filtered_data['normCrossError']
             dataSetName = dataSet_to_name[dataSet]
             normalization = dataSet_to_normalization[dataSet]
             filtered_data_fit = df_fit[(df_fit['E0'] == E0) & (df_fit['ThetaDeg'] == ThetaDeg)]
             filtered_data_fit = filtered_data_fit.sort_values(by = 'nu')
-            x_fit = filtered_data_fit['nu']
+            x_fit = filtered_data_fit['nu'] if nu_axis else filtered_data_fit['W2original']
             y_fit = filtered_data_fit['sigtot']
             filtered_data_GENIE = df_GENIE[(df_GENIE['E0'] == E0) & (df_GENIE['ThetaDeg'] == ThetaDeg)]
             filtered_data_GENIE = filtered_data_GENIE.sort_values(by = 'nu')
-            x_GENIE = filtered_data_GENIE['nu']
+            x_GENIE = filtered_data_GENIE['nu'] if nu_axis else filtered_data_GENIE['W2original']
             y_GENIE = filtered_data_GENIE['cross']
             filtered_data_SuSAV2 = df_SuSAV2[(df_SuSAV2['E0'] == E0) & (df_SuSAV2['ThetaDeg'] == ThetaDeg)]
             filtered_data_SuSAV2 = filtered_data_SuSAV2.sort_values(by = 'nu')
-            x_SuSAV2 = filtered_data_SuSAV2['nu']
+            x_SuSAV2 = filtered_data_SuSAV2['nu'] if nu_axis else filtered_data_SuSAV2['W2original']
             y_SuSAV2 = filtered_data_SuSAV2['cross']
             ax.errorbar(x, y, yerr=yerr, fmt='.', label='normCross', color='blue', markersize=8, capsize=0, alpha=1.0, zorder=1)
             ax.plot(x_fit, y_fit, label='Christy-Bodek Fit', color='red', linestyle='solid', linewidth=2, alpha=0.5, zorder=2)
-            ax.scatter(x_GENIE, y_GENIE, label='GENIE', color='gold', marker='D', s=8, edgecolors='black', linewidth=0.3, alpha=1.0, zorder=3)
-            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lawngreen', marker='D', s=8, edgecolors='black', linewidth=0.3, alpha=1.0, zorder=4)
-            ax.set_xlabel('$\\nu \ (GeV)$')
+            ax.scatter(x_GENIE, y_GENIE, label='GENIE', color='saddlebrown', marker='D', s=12, linewidth=0, alpha=1.0, zorder=3)
+            ax.scatter(x_SuSAV2, y_SuSAV2, label='SuSAV2', color='lawngreen', marker='s', s=18, edgecolor = 'black', linewidth=0.2, alpha=1.0, zorder=4)
+            if nu_axis:
+                ax.set_xlabel('$\\nu \ (GeV)$')
+            else:
+                ax.set_xlabel('$W^2 (GeV^2)$')
             ax.set_ylabel('$\\frac{d^2 \sigma}{d\Omega d\\nu} (nb/sr/GeV)$')
             ax.set_ylim(0, None)
             ax.set_title(f'{int(dataSet)}:{dataSetName} {E0}$GeV$ {ThetaDeg}° (X {normalization:.4f})')

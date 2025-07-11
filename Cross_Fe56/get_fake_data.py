@@ -10,7 +10,7 @@ small_Q2 = False
 df = pd.read_csv('Data/Fe56.csv')
 columns = ['Z', 'A', 'E0', 'ThetaDeg', 'nu', 'cross', 'error', 'dataSet']
 new_rows = []
-value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[1], x[0]))
+value_pairs = sorted(set((row["E0"], row["ThetaDeg"], row["dataSet"]) for _, row in df.iterrows()), key=lambda x: (x[2], x[0], x[1]))
 
 for E0, ThetaDeg, dataSet in value_pairs:
     sub = df[(df['E0'] == E0) & (df['ThetaDeg'] == ThetaDeg) & (df['dataSet'] == dataSet)]
