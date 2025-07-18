@@ -22,7 +22,7 @@ CCCCC  Cross section is dsig/domega/dE in ub                                    
 
 c      smwid = 0.0035   !!! GeV, Use for Barreau data 
 c      smwid = 0.00048  !!! Use for Yamaguchi data
-       smwid = 0.002
+       smwid = 0.002    !!! Use for plotting cross
 c      smwid = 0.00085  !!! Use for Ryan data
 c       smwid = 0.00018           !!! Bates
 c       smwid = 0.00025   !!! Yamaguchi fine binning

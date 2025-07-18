@@ -40,4 +40,4 @@ for value_pair in value_pairs:
 
 data_merged = pd.DataFrame(generated_rows)
 data_merged.to_csv(output_merged, index = False)
-print(f"Generated {len(data_merged)} rows and saved to {output_merged}")
+print(f"{len(data_merged)} rows")

@@ -20,7 +20,7 @@ CCCCC  Cross section is dsig/domega/dE in ub                                    
       REAL*8 x,tot,epnuc
 
 
-      smwid = 0.0035   !!! GeV, Use for Barreau data 
+c      smwid = 0.0035   !!! GeV, Use for Barreau data 
 c      smwid = 0.00048  !!! Use for Yamaguchi data
 c      smwid = 0.00085  !!! Use for Ryan data
 c       smwid = 0.00018           !!! Bates
@@ -30,7 +30,7 @@ c      smwid = 0.00041  !!! Use for LEDEX 0.362 GeV
 c       smwid = 0.000625  !!! Use for Crannell 250 MeV  (0.25%)
 c      smwid = 0.0015    !!!  Use for Crannell 600 MeV (0.25%)
 
-c       smwid = 0.001   !!!  New value for Jan05
+       smwid = 0.001   !!!  New value for Jan05
 
 c      smwid = 0.00025   !!! Yamaguchi hi res
       
