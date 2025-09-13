@@ -5,7 +5,7 @@
       real*8 Z, A, Q2, W2, xb, qv, nu, dnu, F1, FL, RT, RL, RTE, RLE
       real*8 nuel, ex, RTQE, RLQE, RTIE, RLIE, RTNS, RLNS, RTTOT, RLTOT
       real*8 flNS, f1NS, fLt, f1t, mp/0.938273/
-      real*8 K, x, modifier/0.6/
+      real*8 K/0.6/, x, modifier
       integer i,j,type
       integer io_status, arg_status, unit
       character(len=30) filename
@@ -98,10 +98,14 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
         fL = 2.0*xb*fL
         RTIE = 2.0/mp*F1/1000.0
         RLIE =  qv*qv/q2/2.0/mp/xb*FL/1000.0
+        RTTOT = RTTOT - RTIE
+        RLTOT = RLTOT - RLIE
         x = q2/(2.0*mp*nu)
         modifier = 1.0 + K*(4.0/26.0)*(1.0 - 0.75*x)
         RTIE = RTIE * modifier
         RLIE = RLIE * modifier
+        RTTOT = RTTOT + RTIE
+        RLTOT = RLTOT + RLIE
         
         type = 4
         call csfitcomp(w2,q2,A,Z,XVALC,type,f1,fL) !!!  TE response

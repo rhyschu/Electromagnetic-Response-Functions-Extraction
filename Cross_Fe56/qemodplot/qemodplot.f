@@ -10,6 +10,7 @@
       real*8 epnuc,nuel,nuccs,nuccstot,ev,epv,q2v,w2v,epsv,fluxv
       real*8 sigmnonuc,sin2,cos2,tan2,radcon/0.0174533/
       real*8 sigtot,signonuc
+      real*8 K1/0.6/, x1, modifier
       
       integer i,j,k,l,state,type
       logical thend/.false./
@@ -148,6 +149,11 @@ c     & 0.71092E-02,0.78423E-01,0.29565E+00,0.62607E+00,-.13227E+00 /
            sigqe = sigm
          elseif(type.eq.3) then
            sigie = sigm
+           sigtot = sigtot - sigie
+           x1 = q2/(2.0*mp*nu)
+           modifier = 1.0 + K1*(4.0/26.0)*(1.0 - 0.75*x1)
+           sigie = sigie * modifier
+           sigtot = sigtot + sigie
          elseif(type.eq.4) then
            sigmec = sigm
          endif
