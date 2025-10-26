@@ -10,6 +10,6 @@ def merge_pdfs(pdf_list, output_file):
     merger.close()
     print(f"Merged {len(pdf_list)} PDFs into {output_file}")
 
-pdf_files = ["Fe56_RLRT_1.pdf", "Fe56_RLRT_2.pdf", "Fe56_RLRT_3.pdf"]
-output = "Fe56_comparison_Aug16.pdf"
+pdf_files = ["Fe56_Comparison_1.pdf", "Fe56_Comparison_2.pdf", "Fe56_Comparison_3.pdf"]
+output = "Fe56_Comparison_Oct26.pdf"
 merge_pdfs(pdf_files, output)
