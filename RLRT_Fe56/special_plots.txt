@@ -1,0 +1,163 @@
+Normal
+
+1.
+Veff = 0.0089
+
+2.
+# three-momentum bin centers
+qvcenters = [0.100, 0.148, 0.167, 0.205, 0.240, 0.300, 0.380, 0.475, 0.570, 0.649, 0.756, 0.991, 1.619, 1.921, 2.213, 2.500, 2.783, 3.500]
+# three-momentum edges
+qvbins = [0.063, 0.124, 0.158, 0.186, 0.223, 0.270, 0.340, 0.428, 0.523, 0.609, 0.702, 0.878, 1.302, 1.770, 2.067, 2.357, 2.642, 2.923, 4.500]
+# four-momentum squared bin names, in string format
+qvbin_names = ['[0.063,0.124]', '[0.124,0.158]', '[0.158,0.186]', '[0.186,0.223]', '[0.223,0.270]', '[0.270,0.340]', '[0.340,0.428]', '[0.428,0.523]', '[0.523,0.609]',
+                '[0.609,0.702]', '[0.702,0.878]', '[0.878,1.302]', '[1.302,1.770]', '[1.770,2.067]', '[2.067,2.357]', '[2.357,2.642]', '[2.642,2.923]', '[2.923,4.500]']
+
+3.
+RL_plot_top = np.array([250, 250, 250, 250, 200, 
+                        150, 100, 76, 43, 43, 
+                        43, 43, 433, 520, 347, 
+                        217, 173, 54])
+RT_plot_top = np.array([150, 150, 100, 100, 100, 
+                        191, 152, 195, 180, 173, 
+                        182, 108, 195, 152, 152, 
+                        113, 65, 52])
+
+4.
+plot_configs = [
+    (RLRT_plot_qvbin, [0, 1, 2, 3, 4]),
+    (RLRT_plot_qvbin, [5, 6, 7, 8, 9]),
+    (RLRT_plot_qvbin, [10, 11, 12, 13, 14]),
+    (RLRT_plot_qvbin, [15, 16, 17]),
+    (RLRT_plot_Q2bin, [0, 1, 2, 3, 4]),
+    (RLRT_plot_Q2bin, [5, 6, 7, 8, 9]),
+    (RLRT_plot_Q2bin, [10, 11, 12, 13, 14]),
+    (RLRT_plot_Q2bin, [15, 16, 17])
+]
+
+with PdfPages('Output/Fe56_RLRT.pdf') as RLRT_pdf:
+    for plot_func, bins in plot_configs:
+        fig = plot_func(bin_indices = bins)
+        RLRT_pdf.savefig(fig)
+        plt.close(fig)
+
+Altemus and Hotta
+
+1.
+Veff = 0
+
+2.
+# three-momentum bin centers
+qvcenters = [0.210, 0.250, 0.290, 0.330, 0.370, 0.410, 0.450]
+# three-momentum edges
+qvbins = [0.190, 0.230, 0.270, 0.310, 0.350, 0.390, 0.430, 0.470]
+# four-momentum squared bin names, in string format
+qvbin_names = ['[0.190,0.230]', '[0.230,0.270]', '[0.270,0.310]', '[0.310,0.350]', '[0.350,0.390]', '[0.390,0.430]', '[0.430,0.470]']
+
+3.
+RL_plot_top = np.array([250, 200, 150, 150, 100, 80, 76])
+RT_plot_top = np.array([100, 100, 191, 120, 152, 200, 195])
+
+4.
+plot_configs = [
+    (RLRT_plot_qvbin, {"bin_indices": [0, 1, 2, 3], "Altemus_plot": True, "Hotta_plot": True, "Meziani_plot": False}),
+    (RLRT_plot_qvbin, {"bin_indices": [4, 5, 6], "Altemus_plot": True, "Hotta_plot": True, "Meziani_plot": False})
+]
+
+with PdfPages('Output/Fe56_RLRT_Altemus_Hotta.pdf') as RLRT_pdf:
+    fig, ax = plt.subplots(figsize=(10, 8))
+    ax.axis('off')
+    ax.text(0.5, 0.5, "Altemus Hotta\n\n0.210([0.190,0.230]), 0.250([0.230,0.270]), 0.290([0.270,0.310]), 0.330([0.310,0.350]),\n\n0.370([0.350,0.390]), 0.410([0.390,0.430]), 0.450([0.430,0.470])\n\ntimes (4pi/Mass target)\n\nwithout Coulomb corrections", fontsize=14, ha='center', va='center')
+    RLRT_pdf.savefig(fig)
+    plt.close(fig)
+    for plot_func, kwargs in plot_configs:
+        fig = plot_func(**kwargs)
+        RLRT_pdf.savefig(fig)
+        plt.close(fig)
+
+Meziani and Chen
+
+1.
+Veff = 0.0089
+
+2.
+# three-momentum bin centers
+qvcenters = [0.410, 0.480, 0.550, 0.770, 1.140]
+# three-momentum edges
+qvbins = [0.370, 0.450, 0.510, 0.590, 0.950, 1.330]
+# four-momentum squared bin names, in string format
+qvbin_names = ['[0.370,0.450]', '[0.450,0.510]', '[0.510,0.590]', '[0.590,0.950]', '[0.950,1.330]']
+
+3.
+RL_plot_top = np.array([80, 0, 43, 0, 80])
+RT_plot_top = np.array([200, 0, 180, 0, 100])
+
+4.
+plot_configs = [
+    (RLRT_plot_qvbin, {"bin_indices": [0, 2, 4], "Altemus_plot": False, "Hotta_plot": False, "Meziani_plot": True})
+]
+
+with PdfPages('Output/Fe56_RLRT_Meziani_Chen.pdf') as RLRT_pdf:
+    fig, ax = plt.subplots(figsize=(10, 8))
+    ax.axis('off')
+    ax.text(0.5, 0.5, "Meziani Chen\n\n0.410([0.370,0.450]), 0.550([0.510,0.590]), 1.140([0.950,1.330])", fontsize=14, ha='center', va='center')
+    RLRT_pdf.savefig(fig)
+    plt.close(fig)
+    for plot_func, kwargs in plot_configs:
+        fig = plot_func(**kwargs)
+        RLRT_pdf.savefig(fig)
+        plt.close(fig)
+
+-------------------------------------------------------------
+
+0.02233224
+
+nu = Q2/(2Mx) RL = (q^2/Q2)*FL*(nu^2/Q2) RT = 2*F1/M
+
+df = df[df['dataSet'].isin([3, 5, 9, 13, 16, 18, 22, 23, 28, 30, 31, 34, 36, 37, 40, 41, 45, 47, 51, 53, 54, 55, 56, 57])]
+
+def Exedges_limit_width(edges = None, max_width = 0.01, width_limit_cutoff = 0.05):
+    final_edges = [edges[0]]
+    for i in range(1, len(edges)):
+        start = final_edges[-1]
+        end = edges[i]
+        if start < width_limit_cutoff and end <= width_limit_cutoff:
+            while end - start > max_width:
+                start += max_width
+                final_edges.append(start)
+            if final_edges[-1] < end:
+                final_edges.append(end)
+        else:
+            if end > final_edges[-1]:
+                final_edges.append(end)
+
+    return np.array(final_edges)
+    
+def Exedges_epsilon_range(df = None, edges = None, min_range = 0.25):
+    i = 0
+    while i < len(edges) - 2:
+        lo, hi = edges[i], edges[i + 2]
+        # Calculate y-range in the merged bin [lo, hi)
+        sub = df[(df['Ex'] >= lo) & (df['Ex'] < hi)]
+        if not sub.empty and (sub['epsilon'].max() - sub['epsilon'].min()) < min_range:
+            # Merge by removing mid-edge
+            edges = np.delete(edges, i + 1)
+            # Step back to re-check previous merge
+            if i > 0: i -= 1
+        else:
+            i += 1
+    return edges
+
+def W2edges_epsilon_range(df = None, edges = None, min_range = 0.25):
+    i = 0
+    while i < len(edges) - 2:
+        lo, hi = edges[i], edges[i + 2]
+        # Calculate y-range in the merged bin [lo, hi)
+        sub = df[(df['W2'] >= lo) & (df['W2'] < hi)]
+        if not sub.empty and (sub['epsilon'].max() - sub['epsilon'].min()) < min_range:
+            # Merge by removing mid-edge
+            edges = np.delete(edges, i + 1)
+            # Step back to re-check previous merge
+            if i > 0: i -= 1
+        else:
+            i += 1
+    return edges
