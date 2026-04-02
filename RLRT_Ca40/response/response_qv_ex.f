@@ -73,7 +73,7 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
 
         nu = - massFe56 + sqrt(massFe56*massFe56+qv*qv+2*massFe56*ex)
         q2 = qv*qv - nu*nu
-        nuel = q2/2./(0.931494*56.0)
+        nuel = q2/2./(0.931494*40.0)
 
         w2 = mp*mp+2.0*mp*nu-q2
 

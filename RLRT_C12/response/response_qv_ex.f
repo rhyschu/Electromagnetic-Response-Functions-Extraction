@@ -110,7 +110,7 @@ c        write(6,*) RLTOT,RLIE+RLQE
         
         fLNS = 0.0
         f1NS = 0.0
-        do j=2,22
+        do j=2,21
            call nuc12sf(Z,A,nu,q2,j,f1t,fLt)
 
           fLNS = fLNS + fLt
