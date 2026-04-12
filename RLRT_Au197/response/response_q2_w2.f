@@ -1,16 +1,14 @@
-      PROGRAM response_qv_ex
+      PROGRAM response_q2_w2
 
       IMPLICIT NONE
 
       real*8 Z, A, Q2, W2, xb, qv, nu, dnu, F1, FL, RT, RL, RTE, RLE
       real*8 nuel, ex, RTQE, RLQE, RTIE, RLIE, RTNS, RLNS, RTTOT, RLTOT
       real*8 flNS, f1NS, fLt, f1t, mp/0.938273/
-      real*8 massCa40/37.25976/
       real*8 K/0.6/, x, modifier
+      integer i,j,type
       integer io_status, arg_status, unit
       character(len=30) filename
-
-      integer i,j,type
       real*8 xvalc(45) /     
 c     & 0.94187E-01,0.10367E+02,0.13523E+00,0.68783E+01,0.76964E+00,
 c     & 0.74171E+00,0.20269E+01,0.20269E+01,0.69603E+00,-.41246E+01,
@@ -53,8 +51,8 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
       A = 12.0
       Z = 6.0
       call get_command_argument(1, filename, arg_status)
-      
       unit = 20
+      
       open(UNIT=unit, FILE=filename, STATUS='old', IOSTAT=io_status)
       
       if (io_status/= 0) then
@@ -62,25 +60,22 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
         stop
       endif
 
-      
-      dnu = 0.0
 
-      ! open(unit=6, file='response_qv_nu_output.txt', status='replace')
+      
+      
       i = 0
       do 
-        read(unit,*,IOSTAT=io_status) i, qv, ex
+        read(unit,*,IOSTAT=io_status) i, q2, w2
         if (io_status /= 0) exit
+        
+        nu = (w2+q2-mp*mp)/(2.0*mp)
+        qv = sqrt(q2+nu*nu)
+        nuel = q2/2./(0.931494*197.0)
 
-        nu = - massCa40 + sqrt(massCa40*massCa40+qv*qv+2*massCa40*ex)
-        q2 = qv*qv - nu*nu
-        nuel = q2/2./(0.931494*40.0)
-
-        w2 = mp*mp+2.0*mp*nu-q2
 
         xb = q2/2.0/mp/nu
 
-
-      !   ex = nu-nuel
+        ex = nu-nuel
         
         type = 1
         call csfitcomp(w2,q2,A,Z,XVALC,type,f1,fL) !!!  total response
@@ -132,7 +127,7 @@ c        if(ex.LE.0.012) then  !!! Only needed for plotting purposes
 c           RTNS = RTNS/6.0
 c           RLNS = RLNS/6.0
 c        endif
-        
+
         if(RLNS.LE.1E-40) RLNS = 0.0
         if(RTNS.LE.1E-40) RTNS = 0.0
         
@@ -140,7 +135,10 @@ c        endif
         RTTOT = RTTOT+RTNS
         !write(6,2000) i, RTTOT, RLTOT
         write(6, 2000) i, RTTOT, RLTOT, (RTQE+RTIE+RTE), (RLQE+RLIE+RLE) 
-c        write(6,2000) qv,q2,ex,nu,RTTOT,RLTOT,RTQE,RLQE,RTIE,RLIE,RTE,RLE,RTNS,RLNS          
+        
+c        if(q2.GT.0.0) 
+c     &       write(6,2000) i,qv,q2,ex,nu,RTTOT,RLTOT,RTQE,RLQE,RTIE,RLIE,
+c     &                      RTE,RLE,RTNS,RLNS        
         
 c        if(q2.GT.0.0) 
 c     &       write(6,2000) qv,q2,ex,nu,RTTOT,RLTOT,RTQE,RLQE,RTIE,RLIE,
@@ -149,15 +147,15 @@ c     &                      RTE,RLE,RTNS,RLNS
 c         if(q2.LE.0.0) 
 c     &       write(6,2000) qv,q2,ex,nu,RTTOT,RLTOT,RTQE,RLQE,RTIE,RLIE,
 c     &                      RTE,RLE,RTNS,RLNS   
+c        i = i + 1
 
-c        i = i+1
+ 
+        
       enddo
-
 c 2000  format(4f9.5,10E15.7)
 c 2000  format(4f9.5,10E11.3)
-c 2001  format(I5,2E11.3)    
-c 2002  format(4f9.5,10E11.3)
  2000  format(1I5,4E15.7)      
+c 2000  format(1I5,2E15.7) 
       close(UNIT=unit)
       return
       end
