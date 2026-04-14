@@ -45,7 +45,7 @@
         endif
         w2 = mp*mp+2.0*mp*nu-q2
         xb = q2/2.0/mp/nu
-        nuel = q2/2./(0.931494*40.0)
+        nuel = q2/2./(0.931494*A)
         ex = nu-nuel
         
         type = 1

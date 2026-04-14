@@ -39,7 +39,7 @@
         read(unit,*,IOSTAT=io_status) i, q2, nu
         if (io_status /= 0) exit
 
-        nuel = q2/2./(0.931494*40.0)
+        nuel = q2/2./(0.931494*A)
         qv = sqrt(q2+nu*nu)
         w2 = mp*mp+2.0*mp*nu-q2
         xb = q2/2.0/mp/nu

@@ -68,7 +68,7 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
         read(unit,*,IOSTAT=io_status) i, q2, ex
         if (io_status /= 0) exit
         
-        nuel = q2/2./(0.931494*197.0)
+        nuel = q2/2./(0.931494*A)
 
         nu = ex + nuel
 

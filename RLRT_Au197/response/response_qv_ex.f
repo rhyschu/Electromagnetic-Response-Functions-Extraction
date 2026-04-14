@@ -5,7 +5,6 @@
       real*8 Z, A, Q2, W2, xb, qv, nu, dnu, F1, FL, RT, RL, RTE, RLE
       real*8 nuel, ex, RTQE, RLQE, RTIE, RLIE, RTNS, RLNS, RTTOT, RLTOT
       real*8 flNS, f1NS, fLt, f1t, mp/0.938273/
-      real*8 massAu197/183.504318/
       real*8 K/0.6/, x, modifier
       integer io_status, arg_status, unit
       character(len=30) filename
@@ -71,10 +70,9 @@ c     & 0.36333E-01,0.75341E-01,0.27892E+00,0.15692E+00,0.10459E+00 /
         read(unit,*,IOSTAT=io_status) i, qv, ex
         if (io_status /= 0) exit
 
-        nu = - massAu197 + sqrt(massAu197*massAu197+qv*qv+ 
-     &     2*massAu197*ex)
+        nu = sqrt((A*0.931494)**2 + qv**2 + 2*A*0.931494*ex) - A*0.931494
         q2 = qv*qv - nu*nu
-        nuel = q2/2./(0.931494*197.0)
+        nuel = q2/2./(0.931494*A)
 
         w2 = mp*mp+2.0*mp*nu-q2
 
